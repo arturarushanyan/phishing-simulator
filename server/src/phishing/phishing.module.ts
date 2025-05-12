@@ -15,7 +15,7 @@ import { PhishingAttempt, PhishingAttemptSchema } from './schemas/phishing-attem
     }),
     MongooseModule.forFeature([
       { name: PhishingAttempt.name, schema: PhishingAttemptSchema }
-    ]),
+    ], 'phishing'),
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {

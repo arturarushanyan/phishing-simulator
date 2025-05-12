@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import PhishingSimulation from './components/PhishingSimulation';
 import PhishingAttempts from './components/PhishingAttempts';
 import Header from './components/Header';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
 const AppContent: React.FC = () => {
@@ -23,8 +24,22 @@ const AppContent: React.FC = () => {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/phishing-simulation" element={<PhishingSimulation />} />
-            <Route path="/attempts" element={<PhishingAttempts />} />
+            <Route
+              path="/phishing-simulation"
+              element={
+                <ProtectedRoute>
+                  <PhishingSimulation />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/attempts"
+              element={
+                <ProtectedRoute>
+                  <PhishingAttempts />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/" element={<Navigate to="/phishing-simulation" replace />} />
           </Routes>
         </div>

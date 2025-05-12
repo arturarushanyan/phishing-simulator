@@ -18,7 +18,7 @@ export class PhishingService {
 
   constructor(
     private readonly mailerService: MailerService,
-    @InjectModel(PhishingAttempt.name) private phishingAttemptModel: Model<PhishingAttemptDocument>,
+    @InjectModel(PhishingAttempt.name, 'phishing') private phishingAttemptModel: Model<PhishingAttemptDocument>,
   ) {}
 
   async sendPhishingEmail(sendPhishingEmailDto: SendPhishingEmailDto) {
@@ -110,6 +110,11 @@ export class PhishingService {
       };
     } catch (error) {
       this.logger.error('Failed to record link click:', error);
+      this.logger.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      });
       throw new Error(`Failed to record link click: ${error.message}`);
     }
   }
