@@ -3,7 +3,9 @@ import { PhishingService } from './phishing.service';
 import { PhishingController } from './phishing.controller';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import emailConfig from '../config/email.config';
+import { PhishingAttempt, PhishingAttemptSchema } from './schemas/phishing-attempt.schema';
 
 @Module({
   imports: [
@@ -11,6 +13,9 @@ import emailConfig from '../config/email.config';
       load: [emailConfig],
       isGlobal: true,
     }),
+    MongooseModule.forFeature([
+      { name: PhishingAttempt.name, schema: PhishingAttemptSchema }
+    ]),
     MailerModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
