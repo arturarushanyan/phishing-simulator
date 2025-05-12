@@ -3,25 +3,46 @@ import { PhishingService } from './phishing.service';
 import { PhishingController } from './phishing.controller';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import emailConfig from '../config/email.config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      load: [emailConfig],
+      isGlobal: true,
+    }),
     MailerModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        transport: {
-          host: configService.get('SMTP_HOST'),
-          port: configService.get('SMTP_PORT'),
-          secure: true,
-          auth: {
-            user: configService.get('SMTP_USER'),
-            pass: configService.get('SMTP_PASS'),
+      useFactory: async (configService: ConfigService) => {
+        const config = {
+          transport: {
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false,
+            auth: {
+              user: configService.get('email.auth.user'),
+              pass: configService.get('email.auth.pass'),
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
           },
-        },
-        defaults: {
-          from: configService.get('SMTP_FROM'),
-        },
-      }),
+          defaults: {
+            from: configService.get('email.from'),
+          },
+        };
+        console.log('Mailer config:', {
+          ...config,
+          transport: {
+            ...config.transport,
+            auth: {
+              user: config.transport.auth.user,
+              pass: '***' // masked for security
+            }
+          }
+        });
+        return config;
+      },
       inject: [ConfigService],
     }),
   ],
