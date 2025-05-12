@@ -31,7 +31,7 @@ export class PhishingService {
       }
 
       const trackingId = uuidv4();
-      const clickUrl = `http://localhost:5173/click/${trackingId}`;
+      const clickUrl = `http://localhost:3000/phishing/click/${trackingId}`;
       
       // Replace the placeholder URL with the tracking URL
       const htmlContent = template.html.replace(
@@ -53,7 +53,7 @@ export class PhishingService {
       await this.mailerService.sendMail(mailOptions);
       
       // Save successful attempt
-      await this.phishingAttemptModel.create({
+      const attempt = await this.phishingAttemptModel.create({
         targetEmail: sendPhishingEmailDto.email,
         template: sendPhishingEmailDto.template,
         status: 'sent',
@@ -62,7 +62,8 @@ export class PhishingService {
         clicked: false,
       });
 
-      this.logger.debug('Email sent successfully');
+      this.logger.debug(`Created phishing attempt with ID: ${attempt._id} and trackingId: ${trackingId}`);
+
       return {
         success: true,
         message: 'Phishing email sent successfully',
@@ -87,17 +88,25 @@ export class PhishingService {
 
   async handleLinkClick(trackingId: string) {
     try {
+      this.logger.debug(`Looking for attempt with trackingId: ${trackingId}`);
+      
       const attempt = await this.phishingAttemptModel.findOne({ trackingId });
       if (!attempt) {
+        this.logger.error(`No attempt found with trackingId: ${trackingId}`);
         throw new Error('Invalid tracking ID');
       }
 
+      this.logger.debug(`Found attempt: ${JSON.stringify(attempt)}`);
+      
       attempt.clicked = true;
-      await attempt.save();
+      const updatedAttempt = await attempt.save();
+      
+      this.logger.debug(`Updated attempt: ${JSON.stringify(updatedAttempt)}`);
 
       return {
         success: true,
         message: 'Link click recorded successfully',
+        attempt: updatedAttempt,
       };
     } catch (error) {
       this.logger.error('Failed to record link click:', error);
