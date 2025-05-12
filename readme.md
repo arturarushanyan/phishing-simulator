@@ -110,13 +110,6 @@ The application will be available at:
    - Added input validation for all API endpoints
    - Ensured secure handling of sensitive data
 
-## Some Caveats and missing functionality
-
-- Unfortunately I haven't implemented the authentication part. Just didn't had time for it
-- Skipped the devops part as well as I don't have much experience with it and attempt of implementing it would have been wase of time
-- I haven't done any proper code review. I'm sure if I look at all this with a fresh eye, I will find some things that are not efficient or need refactoring
-
-
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
