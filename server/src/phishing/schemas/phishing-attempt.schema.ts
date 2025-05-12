@@ -19,6 +19,12 @@ export class PhishingAttempt {
 
   @Prop()
   sentAt: Date;
+
+  @Prop({ default: false })
+  clicked: boolean;
+
+  @Prop({ required: true, unique: true })
+  trackingId: string;
 }
 
 export const PhishingAttemptSchema = SchemaFactory.createForClass(PhishingAttempt); 

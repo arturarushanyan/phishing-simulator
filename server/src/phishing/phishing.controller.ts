@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { PhishingService } from './phishing.service';
 import { SendPhishingEmailDto } from './dto/send-phishing-email.dto';
 
@@ -9,5 +9,15 @@ export class PhishingController {
   @Post('send')
   async sendPhishingEmail(@Body() sendPhishingEmailDto: SendPhishingEmailDto) {
     return this.phishingService.sendPhishingEmail(sendPhishingEmailDto);
+  }
+
+  @Get('click/:trackingId')
+  async handleLinkClick(@Param('trackingId') trackingId: string) {
+    return this.phishingService.handleLinkClick(trackingId);
+  }
+
+  @Get('attempts')
+  async getPhishingAttempts() {
+    return this.phishingService.getPhishingAttempts();
   }
 }
