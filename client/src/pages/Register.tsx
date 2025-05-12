@@ -24,7 +24,7 @@ const Register: React.FC = () => {
     try {
       const response = await axios.post('http://localhost:3000/auth/register', formData);
       localStorage.setItem('token', response.data.token);
-      navigate('/dashboard');
+      navigate('/phishing-simulation');
     } catch (err) {
       setError('Registration failed. Please try again.');
     }

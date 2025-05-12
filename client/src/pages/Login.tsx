@@ -22,7 +22,7 @@ const Login: React.FC = () => {
     try {
       const response = await axios.post('http://localhost:3000/auth/login', formData);
       localStorage.setItem('token', response.data.token);
-      navigate('/dashboard');
+      navigate('/phishing-simulation');
     } catch (err) {
       setError('Invalid email or password');
     }

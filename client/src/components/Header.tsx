@@ -16,14 +16,8 @@ const Header: React.FC<HeaderProps> = ({ onLogout }) => {
             </div>
             <nav className="ml-6 flex space-x-8">
               <Link
-                to="/dashboard"
-                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900"
-              >
-                Dashboard
-              </Link>
-              <Link
                 to="/phishing-simulation"
-                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:text-gray-900"
+                className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900"
               >
                 Simulation
               </Link>
