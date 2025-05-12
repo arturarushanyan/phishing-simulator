@@ -1,23 +1,25 @@
-import PhishingSimulation from './components/PhishingSimulation'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import PhishingSimulation from './components/PhishingSimulation';
+import PhishingAttempts from './components/PhishingAttempts';
+import Header from './components/Header';
+import './App.css';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto py-6 px-4">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Phishing Simulation Tool
-          </h1>
-        </div>
-      </header>
-      <main>
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          <PhishingSimulation />
-        </div>
-      </main>
-    </div>
-  )
+    <Router>
+      <div className="min-h-screen bg-gray-100">
+        <Header />
+        <main>
+          <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <Routes>
+              <Route path="/" element={<PhishingSimulation />} />
+              <Route path="/attempts" element={<PhishingAttempts />} />
+            </Routes>
+          </div>
+        </main>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;
